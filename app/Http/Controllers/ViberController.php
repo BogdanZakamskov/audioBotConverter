@@ -15,6 +15,10 @@ class ViberController extends Controller
     public function index(Request $request)
     {
         $data = json_decode(json_encode($request->all()));
+        $file = fopen("testing.txt", "a+");
+        $write = strval(json_encode($request->all()));
+        fwrite($file,$write);
+        fclose($file);
         $event = $data->event;
         switch ($event) {
             case "conversation_started":
