@@ -56,7 +56,7 @@ class ViberController extends Controller
                 }
 
                 // ПРЕОБРАЗОВАНИЕ
-                exec("ffmpeg -i " . $pathToFile . ".m4a -acodec opus -aq 60 -strict -2 -vn -ac 2 " . $pathToFile . ".ogg");
+                exec("sudo ffmpeg -i " . $pathToFile . ".m4a -acodec opus -aq 60 -strict -2 -vn -ac 2 " . $pathToFile . ".ogg");
 
                 $token = config('yandex.IAMToken'); # IAM-токен
                 $folderId = config('yandex.folderId'); # Идентификатор каталога
@@ -85,6 +85,7 @@ class ViberController extends Controller
                     (new ViberService())
                         ->sendTextMessage($viberId, "Печалька. Не удалось преобразовать сообщение :(");
                     // TODO написать логирование
+
                     echo "Error code: " . $decodedResponse["error_code"] . "\r\n";
                     echo "Error message: " . $decodedResponse["error_message"] . "\r\n";
                 }
