@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Classes\CustomResponse;
 use App\Classes\ViberService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -84,12 +85,13 @@ class ViberController extends Controller
                 } else {
                     (new ViberService())
                         ->sendTextMessage($viberId, "Печалька. Не удалось преобразовать сообщение :(");
-                    // TODO написать логирование
+                    Log::error('SpeachKit Error', ['response' => $decodedResponse]);
                     echo "Error code: " . $decodedResponse["error_code"] . "\r\n";
                     echo "Error message: " . $decodedResponse["error_message"] . "\r\n";
                 }
 
                 fclose($file);
+                return (new CustomResponse(['message' => 'ok']))->getResponse();
                 break;
         }
     }
